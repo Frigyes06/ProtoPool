@@ -201,10 +201,12 @@ def wait_for_wallet_start():
             data = {"jsonrpc": "2.0", "method": "nodestatus", "params": {}, "id": 123}
             response_raw = requests.post(wallet_jsonrpc_ip_port, json=data)
             response = json.loads(response_raw.text)
-            if "status_s" in response["result"]:
-                if response["result"]["status_s"] == "Running":
-                    wallet_ok = True
-                    return True
+            if (
+                "status_s" in response["result"]
+                and response["result"]["status_s"] == "Running"
+            ):
+                wallet_ok = True
+                return True
             return False
     except Exception as e:
         print("Wallet start error. Check if the wallet is running!")

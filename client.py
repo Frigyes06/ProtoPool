@@ -60,17 +60,16 @@ def client_handler():
                         #logger.error("Wallet message JSON parsing error: ", e)
                         print("Wallet message JSON parsing error: ", e)
                         continue
-                if "method" in msg:
-                    if msg["method"] == "miner-notify":
-                        #print(msg)
-                        last_miner_notify_cnt += 1
-                        if last_miner_notify_cnt == 2:
-                            last_miner_notify_buf_full = True
-                            last_miner_notify_cnt = 0
-                        last_miner_notify[last_miner_notify_cnt] = msg
-                        accountancy.current_block = msg["params"][0]["block"]
-                        server.send_mining_notify_to_all()
-                        last_miner_notify_flag = True
+                if "method" in msg and msg["method"] == "miner-notify":
+                    #print(msg)
+                    last_miner_notify_cnt += 1
+                    if last_miner_notify_cnt == 2:
+                        last_miner_notify_buf_full = True
+                        last_miner_notify_cnt = 0
+                    last_miner_notify[last_miner_notify_cnt] = msg
+                    accountancy.current_block = msg["params"][0]["block"]
+                    server.send_mining_notify_to_all()
+                    last_miner_notify_flag = True
 
                 if "result" in msg:
                     print(msg)
