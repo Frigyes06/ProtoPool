@@ -202,8 +202,8 @@ def wait_for_wallet_start():
             response_raw = requests.post(wallet_jsonrpc_ip_port, json=data)
             response = json.loads(response_raw.text)
             if (
-                "status_s" in response["result"]
-                and response["result"]["status_s"] == "Running"
+                "status_s" in response["result"] and
+                response["result"]["status_s"] == "Running"
             ):
                 wallet_ok = True
                 return True
@@ -268,7 +268,7 @@ def get_net_hashrate(current_block):
 
     nethash_khs = response["result"]["hashratekhs"]
 
-    nethash_ghs = round((nethash_khs/1000000), 2) #divides by 1000000 to get MHs, and rounds to 2 decimals
+    nethash_ghs = round((nethash_khs/1000000), 2) # divides by 1000000 to get MHs, and rounds to 2 decimals
 
     return nethash_ghs
 
