@@ -40,7 +40,7 @@ def client_handler():
             try:
                 data = cli.recv(buffer)
             except Exception as e:
-                logger.error("WALLET receiver buffer error, error: " + str(e) + "data: " + data.decode("utf-8"))
+                logger.error("WALLET receiver buffer error, error: " + str(e))
                 wallet_ok = False
                 cli.close()
                 break
@@ -57,11 +57,11 @@ def client_handler():
                     try:
                         msg = json.loads(msg)
                     except Exception as e:
-                        #logger.error("Wallet message JSON parsing error: ", e)
+                        # logger.error("Wallet message JSON parsing error: ", e)
                         print("Wallet message JSON parsing error: ", e)
                         continue
                 if "method" in msg and msg["method"] == "miner-notify":
-                    #print(msg)
+                    # print(msg)
                     last_miner_notify_cnt += 1
                     if last_miner_notify_cnt == 2:
                         last_miner_notify_buf_full = True
@@ -71,16 +71,9 @@ def client_handler():
                     server.send_mining_notify_to_all()
                     last_miner_notify_flag = True
 
-                if "result" in msg:
-                    print(msg)
-                    if "pow" in msg["result"]:
-                        print(
-                            "NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE")
-                        accountancy.new_block_accountancy()
-                        #mysql_handler.set_block_to_acked_by_wallet(msg["result"]["block"])
-                        #new block accountancy moved
-                        #accountancy.new_block_accountancy()
-
+                if "result" in msg and "pow" in msg["result"]:
+                    print("NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE")
+                    accountancy.new_block_accountancy()
 
 def mining_submit_handler(submit_msg, extranonce):
     global last_miner_notify, last_miner_notify_cnt, cli
