@@ -7,7 +7,7 @@ shares_of_current_block = 0
 
 miners = {}         # "account": number_of_shares
 shares = {}         # dict of pplns_shares objects, every account has an element + pool has one
-# TODO miner object for every miner/account, 
+# TODO miner object for every miner/account,
 # collect every miner related function to that
 
 # TODO future feature: collect shares worker-by-worker for detailed stat
@@ -18,7 +18,7 @@ share_timeout = 240     # shares older than this will be deleted
 
 class miner_conn():
     """Miner connection class. Stores a miner with all of it's details"""
-    
+
     def __init__(self, connection, address):
         self.conn = connection
         self.addr = address
