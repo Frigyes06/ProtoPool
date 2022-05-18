@@ -188,9 +188,8 @@ def wallet_has_nodes():
         if response["result"]["ready"] is False and response["result"]["ready_s"] == "Alone in the world...":
             wallet_ok = False
             return False
-        else:
-            wallet_ok = True
-            return True
+        wallet_ok = True
+        return True
     except Exception as e:
         logger.error("Wallet has nodes error: " + str(e))
         wallet_ok = False
