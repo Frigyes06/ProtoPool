@@ -7,7 +7,8 @@ shares_of_current_block = 0
 
 miners = {}         # "account": number_of_shares
 shares = {}         # dict of pplns_shares objects, every account has an element + pool has one
-# TODO miner object for every miner/account, collect every miner related function to that
+# TODO miner object for every miner/account, 
+# collect every miner related function to that
 
 # TODO future feature: collect shares worker-by-worker for detailed stat
 hr_shares = {}       # shares log for hashrate calculation for each account; example = {"1111":{"1":[timestamp1, timestamp2, timestamp3, ...], "32":[timestamp1, timestamp2, timestamp3, ..]}}
@@ -16,7 +17,8 @@ hr_avrg_shares = 30     # number of shares to calculated average hashrate
 share_timeout = 240     # shares older than this will be deleted
 
 class miner_conn():
-    '''Miner connection class. Stores a miner with all of it's details'''
+    """Miner connection class. Stores a miner with all of it's details"""
+    
     def __init__(self, connection, address):
         self.conn = connection
         self.addr = address
@@ -30,13 +32,13 @@ class miner_conn():
 miner_conns = []
 
 def print_stat():
-    '''Prints pool statistics every minute'''
+    """Prints pool statistics every minute"""
     global shares_of_current_block, miner_conns
     print("Number of connected miners: " + str(len(miner_conns)) + "  Running threads: " + str(threading.active_count()))
     threading.Timer(60, print_stat).start()
 
 def add_share_for_hr_calc(account, difficulty):
-    '''Adds shares to global list of hr_shares for hashrate calculation'''
+    """Adds shares to global list of hr_shares for hashrate calculation"""
     global hr_shares
 
     account = str(account)
@@ -107,7 +109,7 @@ def get_hr(account):
     return sum_hr
 
 def get_pool_hr():
-    '''Gets pool hashrate by adding up individual hashrates'''
+    """Gets pool hashrate by adding up individual hashrates"""
     global hr_shares
 
     pool_hr = 0
@@ -117,5 +119,5 @@ def get_pool_hr():
     return pool_hr
 
 def No_miners():
-    '''Returns the number of active miner connections'''
+    """Returns the number of active miner connections"""
     return len(miner_conns)
