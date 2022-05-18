@@ -24,15 +24,15 @@ class Payment_batch():
 
 def new_block_accountancy():
     global current_block
-    #TODO try-except
-#    last_block = wallet_json_rpc.get_last_block()
+    # TODO try-except
+    # last_block = wallet_json_rpc.get_last_block()
 
-#    last_account = wallet_json_rpc.get_last_account()
+    # last_account = wallet_json_rpc.get_last_account()
 
-#    print("Last account:" + str(last_account["account"]))
-#    print("Last reward: " + str(last_account["balance"]))
-#    if last_account["account"] == 0:
-#        print("Last account can't be found!!!!!!!!!!!! ERROR")
+    # print("Last account:" + str(last_account["account"]))
+    # print("Last reward: " + str(last_account["balance"]))
+    # if last_account["account"] == 0:
+        # print("Last account can't be found!!!!!!!!!!!! ERROR")
 
     if not sqlite_handler.db.is_block_in_db_already(current_block):
         calc_shares()
@@ -53,7 +53,7 @@ def calc_shares():
                 del mining.shares[account].timestamps[timestamp]
         mining.miners[account] = account_shares
         mining.shares_of_current_block += account_shares
-        #print("Current block shares: " + str(mining.shares_of_current_block))
+        # print("Current block shares: " + str(mining.shares_of_current_block))
 
 def calc_share_rates(last_block, from_account):
     new_payment_batch = Payment_batch(last_block, from_account)
@@ -109,7 +109,7 @@ def set_amounts(block):
     else:
         sqlite_handler.db.remove_payment_from_DB(from_account, pool_account)
 
-#not used
+# not used
 def calc_payments(last_block, last_reward, from_account):
     global account_fees
     spent = 0
@@ -131,9 +131,8 @@ def calc_payments(last_block, last_reward, from_account):
         print(text)
     new_payment_batch_text += '\n'
     filename = "payments.txt"
-    f = open(filename, "a")
-    f.write(new_payment_batch_text)
-    f.close()
+    with open(filename, "a") as f:
+        f.write(new_payment_batch_text)
 
     # Write to DB
     for payment in new_payment_batch.payments:
@@ -153,14 +152,14 @@ def do_payment_batch():
     for payment_batch in payment_batches:
         if payment_batch.paid is False:
             # DO payments
-            #create multioperation
+            # create multioperation
             payment_batch_can_be_paid = True
             try:
                 wallet_json_rpc.unlock_wallet()
             except:
                 break
             for account in payment_batch.payments:
-                #TODO check in DB if it's paid or not
+                # TODO check in DB if it's paid or not
                 result = wallet_json_rpc.send_payment(payment_batch.from_account, account, payment_batch.payments[account], payment_batch.block)
 
                 if result is False:
@@ -170,7 +169,7 @@ def do_payment_batch():
                     sqlite_handler.db.set_payment_to_paid(payment_batch.block, payment_batch.from_account, account)
                 except sqlite3.DatabaseError:
                     print("SQlite error")
-            #TODO write to file
+            # TODO write to file
             if payment_batch_can_be_paid is True:
                 nothing_to_pay = False
                 payment_batch.paid = True  # TODO igy szemeteli a memoriat, fixalni, torolni
@@ -182,13 +181,13 @@ def do_payment_batch():
 
 def payment_processor():
     global current_block
-    #print("\nStarting payment processor")
+    # print("\nStarting payment processor")
     block_checked = []
     block_matured = []
 
     result = sqlite_handler.db.get_unacked_blocks()
     for block in result:
-        #block_checked neccessary to speed up. Multiple txs have the same block, enough to set once a block to checked
+        # block_checked neccessary to speed up. Multiple txs have the same block, enough to set once a block to checked
         if block[1] in block_checked:
             continue
         block_checked.append(block[1])
