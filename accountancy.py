@@ -165,7 +165,7 @@ def do_payment_batch():
                 if result is False:
                     payment_batch_can_be_paid = False
                     break
-                elif result is not True:
+                if result is not True:
                     if "code" in result:
                         if result["code"] == 1004:
                             payment_batch_can_be_paid = False
