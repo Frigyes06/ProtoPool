@@ -145,9 +145,10 @@ def lock_wallet():
     msg = {"jsonrpc": "2.0", "method": "lock", "id": 123}
     try:
         requests.post(wallet_jsonrpc_ip_port, json=msg)
-    except:
-        raise WalletComError
-        
+    except Exception as e:
+        print(e)
+        raise WalletCommError
+
 def send_payment(from_account, to_account, amount, block):
     if wallet_ok is False:
         raise WalletNotReadyError
