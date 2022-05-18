@@ -165,11 +165,10 @@ def do_payment_batch():
                 if result is False:
                     payment_batch_can_be_paid = False
                     break
-                else:
-                    try:
-                        sqlite_handler.db.set_payment_to_paid(payment_batch.block, payment_batch.from_account, account)
-                    except:
-                        print("SQlite error")
+                try:
+                    sqlite_handler.db.set_payment_to_paid(payment_batch.block, payment_batch.from_account, account)
+                except:
+                    print("SQlite error")
             #TODO write to file
             if payment_batch_can_be_paid is True:
                 nothing_to_pay = False
