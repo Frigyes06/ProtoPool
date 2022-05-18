@@ -75,6 +75,7 @@ def client_handler():
                     print("NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE")
                     accountancy.new_block_accountancy()
 
+                    
 def mining_submit_handler(submit_msg, extranonce):
     global last_miner_notify, last_miner_notify_cnt, cli
 
