@@ -143,9 +143,11 @@ def unlock_wallet():
 
 def lock_wallet():
     msg = {"jsonrpc": "2.0", "method": "lock", "id": 123}
-    response_raw = requests.post(wallet_jsonrpc_ip_port, json=msg)
-    response = json.loads(response_raw.text)
-
+    try:
+        requests.post(wallet_jsonrpc_ip_port, json=msg)
+    except:
+        raise WalletComError
+        
 def send_payment(from_account, to_account, amount, block):
     if wallet_ok is False:
         raise WalletNotReadyError
@@ -215,7 +217,7 @@ def wait_for_wallet_start():
         return False
 
 def get_public_key():
-    global pool_public_key
+    global pool_public_key, wallet_ok
     try:
         data = {"jsonrpc": "2.0", "method": "getwalletpubkeys", "id": 123}
         try:
