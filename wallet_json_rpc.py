@@ -168,12 +168,11 @@ def send_payment(from_account, to_account, amount, block):
             print("Payment ERROR from: " + str(from_account) + " to: " + str(to_account) + ", amount: " + str(
                 amount) + "  " + response["error"]["message"])
             raise WalletInvalidOperationError
-        elif response["error"]["code"] == 1005:       # invalid public key -> orphan
+        if response["error"]["code"] == 1005:       # invalid public key -> orphan
             raise WalletPubKeyError
-        elif response["error"]["code"] == 1002:
+        if response["error"]["code"] == 1002:
             raise WalletInvalidTargetAccountError
-        else:
-            raise Exception
+        raise Exception
 
 def wallet_has_nodes():
     global wallet_ok
@@ -284,7 +283,6 @@ def change_key(new_pubkey, acc_number):
         print(response)
         if "Invalid public key" in response["error"]["message"]:
             raise InputParameterError
-        else:
-            raise WalletCommError
+        raise WalletCommError
 
     return True
