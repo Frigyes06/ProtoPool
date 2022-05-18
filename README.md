@@ -1,5 +1,5 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/frigyes06/protopool/badge)](https://www.codefactor.io/repository/github/frigyes06/protopool)
-[![DeepSource](https://deepsource.io/gh/Frigyes06/RetroJBOT.svg/?label=active+issues&show_trend=true&token=g1FfCcLXLUmYIq6jW3KdhW4O)](https://deepsource.io/gh/Frigyes06/RetroJBOT/?ref=repository-badge)
+[![DeepSource](https://deepsource.io/gh/Frigyes06/ProtoPool.svg/?label=active+issues&show_trend=true&token=g2GFGg52vZuwcH1RdoEA-IDp)](https://deepsource.io/gh/Frigyes06/ProtoPool/?ref=repository-badge)
 [![DeepSource](https://deepsource.io/gh/Frigyes06/ProtoPool.svg/?label=resolved+issues&show_trend=true&token=g2GFGg52vZuwcH1RdoEA-IDp)](https://deepsource.io/gh/Frigyes06/ProtoPool/?ref=repository-badge)
 # MicroCoin mining pool
  This is a complete pool engine for the MicroCoin (MCC) ecosystem.
