@@ -40,7 +40,6 @@ def send_stratum_msg(miner, id, method, params):
     send_tcp_msg(miner,msg)
 
 def send_subscribe_ack(miner, id):
-    global extranonce2_size, unique_miner_id_cnt, needed_extranonce_size
 
     val_str = str(unique_miner_id_cnt)
     hex_text = ''

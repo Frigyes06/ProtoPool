@@ -28,12 +28,10 @@ class miner_conn():
 miner_conns = []
 
 def print_stat():
-    global shares_of_current_block, miner_conns
     print("Number of connected miners: " + str(len(miner_conns)) + "  Running threads: " + str(threading.active_count()))
     threading.Timer(60, print_stat).start()
 
 def add_share_for_hr_calc(account, difficulty):
-    global hr_shares
 
     account = str(account)
     difficulty = str(difficulty)
@@ -61,8 +59,6 @@ def get_hr(account):
     :param account:
     :return:
     """
-
-    global hr_shares
 
     account = str(account)      # using account as str
 
@@ -103,7 +99,6 @@ def get_hr(account):
     return sum_hr
 
 def get_pool_hr():
-    global hr_shares
 
     pool_hr = 0
     for account in hr_shares:

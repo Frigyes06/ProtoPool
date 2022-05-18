@@ -22,7 +22,6 @@ class Payment_batch():
         self.payments[account] = share_rate
 
 def new_block_accountancy():
-    global current_block
     #TODO try-except
 #    last_block = wallet_json_rpc.get_last_block()
 
@@ -110,7 +109,6 @@ def set_amounts(block):
 
 #not used
 def calc_payments(last_block, last_reward, from_account):
-    global account_fees
     spent = 0
     new_payment_batch = Payment_batch(last_block, from_account)
     for miner in mining.miners:
@@ -146,7 +144,6 @@ def calc_payments(last_block, last_reward, from_account):
 
 #not used
 def do_payment_batch():
-    global payment_batches
 
     nothing_to_pay = True
     for payment_batch in payment_batches:
@@ -186,7 +183,6 @@ def do_payment_batch():
     threading.Timer(60,do_payment_batch).start()
 
 def payment_processor():
-    global current_block
     #print("\nStarting payment processor")
     block_checked = []
     block_matured = []

@@ -165,7 +165,6 @@ def server_handler(diff, diff_port):
         thread.start()
 
 def start_diff_servers():
-    global diffs, diff_ports
     for i in range(len(diffs)):
         thread_server = threading.Thread(target=server_handler, args=(diffs[i],diff_ports[i]))
         thread_server.start()

@@ -20,7 +20,6 @@ cli = None
 
 
 def client_handler():
-    global last_miner_notify, cli, last_miner_notify_cnt, last_miner_notify_buf_full, last_miner_notify_flag
     wallet_ok = False
     while True:
 
@@ -84,7 +83,6 @@ def client_handler():
 
 
 def mining_submit_handler(submit_msg, extranonce):
-    global last_miner_notify, last_miner_notify_cnt, cli
 
     timestamp_dec = str(int(submit_msg["params"][3], 16))
     nonce = str(int(submit_msg["params"][4], 16))

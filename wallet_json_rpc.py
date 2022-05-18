@@ -73,7 +73,6 @@ def is_block_matured(block):
     return bool(response["result"]["maturation"] >= maturation_time)
 
 def check_block_pubkey(block):
-    global pool_public_key
 
     msg = {"jsonrpc": "2.0", "method": "getblock", "params": {"block": block}, "id": 123}
     try:
