@@ -165,11 +165,6 @@ def do_payment_batch():
                 if result is False:
                     payment_batch_can_be_paid = False
                     break
-                if result is not True:
-                    if "code" in result:
-                        if result["code"] == 1004:
-                            payment_batch_can_be_paid = False
-                            break
                 else:
                     try:
                         sqlite_handler.db.set_payment_to_paid(payment_batch.block, payment_batch.from_account, account)
