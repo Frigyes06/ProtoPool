@@ -4,7 +4,6 @@ import time
 import client
 import server
 import accountancy
-import mining
 import wallet_json_rpc
 import restapi
 from params import version

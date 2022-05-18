@@ -1,5 +1,4 @@
 import logging
-from logging.handlers import TimedRotatingFileHandler
 
 logger = logging.getLogger("protopool")
 hdlr = logging.handlers.TimedRotatingFileHandler('./protopool.log', when='midnight')
