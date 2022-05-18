@@ -47,8 +47,7 @@ def get_block_pow(payload, timestamp, nonce):
 
     if pow1 > pow2:
         return pow2
-    else:
-        return pow1
+    return pow1
 
 def calc_diff_from_target(target):
     maximum_target = 0x00000000FFFF0000000000000000000000000000000000000000000000000000
