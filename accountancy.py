@@ -3,6 +3,7 @@ import time
 
 import mining
 import wallet_json_rpc
+import sqlite3
 import sqlite_handler
 from params import pplns_interval, pool_account, pool_fee, payment_fee, payment_fee_to_pool, payment_prec, orphan_age_limit
 from log_module import logger
@@ -165,16 +166,10 @@ def do_payment_batch():
                 if result is False:
                     payment_batch_can_be_paid = False
                     break
-                elif result is not True:
-                    if "code" in result:
-                        if result["code"] == 1004:
-                            payment_batch_can_be_paid = False
-                            break
-                else:
-                    try:
-                        sqlite_handler.db.set_payment_to_paid(payment_batch.block, payment_batch.from_account, account)
-                    except:
-                        print("SQlite error")
+                try:
+                    sqlite_handler.db.set_payment_to_paid(payment_batch.block, payment_batch.from_account, account)
+                except sqlite3.DatabaseError:
+                    print("SQlite error")
             #TODO write to file
             if payment_batch_can_be_paid is True:
                 nothing_to_pay = False
