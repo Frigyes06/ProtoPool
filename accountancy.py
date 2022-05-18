@@ -167,7 +167,7 @@ def do_payment_batch():
                     break
                 try:
                     sqlite_handler.db.set_payment_to_paid(payment_batch.block, payment_batch.from_account, account)
-                except:
+                except sqlite3.DatabaseError:
                     print("SQlite error")
             #TODO write to file
             if payment_batch_can_be_paid is True:
