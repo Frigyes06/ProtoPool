@@ -3,7 +3,6 @@ import time
 
 import mining
 import wallet_json_rpc
-import sqlite3
 import sqlite_handler
 from params import pplns_interval, pool_account, pool_fee, payment_fee, payment_fee_to_pool, payment_prec, orphan_age_limit
 from log_module import logger
@@ -13,7 +12,7 @@ account_fees = {}
 current_block = 0
 
 class Payment_batch():
-    """"
+    """
     Payment batch class:
 
     self.block = The block for which the batch is for
@@ -21,7 +20,6 @@ class Payment_batch():
     self.payments = list of payments to be executed in the batch
     self.paid = boolean indicating if the batch is paid or not
     """
-
 
     def __init__(self, block, from_account):
         self.block = block
@@ -37,7 +35,7 @@ class Payment_batch():
 def new_block_accountancy():
     """new block accountancy. Called in clinet.py when a new block is found"""
     global current_block
-    #TODO try-except
+    # TODO try-except
 
     if not sqlite_handler.db.is_block_in_db_already(current_block):
         calc_shares()
