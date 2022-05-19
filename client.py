@@ -18,6 +18,7 @@ buffer = 4096
 
 cli = None
 
+
 def client_handler():
     """Client handler. Handles miner connections"""
     global last_miner_notify, cli, last_miner_notify_cnt, last_miner_notify_buf_full, last_miner_notify_flag
