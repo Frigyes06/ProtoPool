@@ -5,16 +5,19 @@ import server
 
 shares_of_current_block = 0
 
-miners = {}         # "account": number_of_shares
-shares = {}         # dict of pplns_shares objects, every account has an element + pool has one
+miners = {}  # "account": number_of_shares
+shares = {
+}  # dict of pplns_shares objects, every account has an element + pool has one
 # TODO miner object for every miner/account,
 # collect every miner related function to that
 
 # TODO future feature: collect shares worker-by-worker for detailed stat
-hr_shares = {}       # shares log for hashrate calculation for each account; example = {"1111":{"1":[timestamp1, timestamp2, timestamp3, ...], "32":[timestamp1, timestamp2, timestamp3, ..]}}
-hr_avrg_shares = 30     # number of shares to calculated average hashrate
+hr_shares = {
+}  # shares log for hashrate calculation for each account; example = {"1111":{"1":[timestamp1, timestamp2, timestamp3, ...], "32":[timestamp1, timestamp2, timestamp3, ..]}}
+hr_avrg_shares = 30  # number of shares to calculated average hashrate
 
-share_timeout = 240     # shares older than this will be deleted
+share_timeout = 240  # shares older than this will be deleted
+
 
 class miner_conn():
     """Miner connection class. Stores a miner with all of it's details"""
@@ -24,18 +27,24 @@ class miner_conn():
         self.addr = address
         self.timestamps = {}
         self.account = ""
+
     def set_account(self, account):
         self.account = account
+
     def add_share(self, timestamp, difficulty):
         self.timestamps[timestamp] = difficulty
 
+
 miner_conns = []
+
 
 def print_stat():
     """Prints pool statistics every minute"""
     global shares_of_current_block, miner_conns
-    print("Number of connected miners: " + str(len(miner_conns)) + "  Running threads: " + str(threading.active_count()))
+    print("Number of connected miners: " + str(len(miner_conns)) +
+          "  Running threads: " + str(threading.active_count()))
     threading.Timer(60, print_stat).start()
+
 
 def add_share_for_hr_calc(account, difficulty):
     """Adds shares to global list of hr_shares for hashrate calculation"""
@@ -59,6 +68,7 @@ def add_share_for_hr_calc(account, difficulty):
 
     hr_shares[account][difficulty].append(time.time())
 
+
 def get_hr(account):
     """
     Get hashrate for an account.
@@ -70,19 +80,21 @@ def get_hr(account):
 
     global hr_shares
 
-    account = str(account)      # using account as str
+    account = str(account)  # using account as str
 
     if account not in hr_shares:
         return 0
 
     diffs = []
-    for diff in server.get_server_diffs():      # using diffs as str
+    for diff in server.get_server_diffs():  # using diffs as str
         diffs.append(str(diff))
 
-    hrs = []    # hashrate for every difficulty, then sum them for account hashrate
+    hrs = [
+    ]  # hashrate for every difficulty, then sum them for account hashrate
 
     for diff in diffs:
-        if len(hr_shares[account][diff]) < 2:   # can't calculate from 0 or 1 shares
+        if len(hr_shares[account]
+               [diff]) < 2:  # can't calculate from 0 or 1 shares
             continue
 
         # delete old shares
@@ -93,13 +105,15 @@ def get_hr(account):
                 new_timestamps.append(ts)
         hr_shares[account][diff] = new_timestamps
 
-        if len(hr_shares[account][diff]) < 2:   # can't calculate from 0 or 1 shares
+        if len(hr_shares[account]
+               [diff]) < 2:  # can't calculate from 0 or 1 shares
             continue
 
         # get average share time
         last_share = hr_shares[account][diff][-1]
         first_share = hr_shares[account][diff][0]
-        avrg_time = (last_share - first_share) / (len(hr_shares[account][diff]) - 1)
+        avrg_time = (last_share -
+                     first_share) / (len(hr_shares[account][diff]) - 1)
         new_hr = float(diff) * 2**32 / avrg_time
         hrs.append(new_hr)
 
@@ -107,6 +121,7 @@ def get_hr(account):
     for hr in hrs:
         sum_hr += hr
     return sum_hr
+
 
 def get_pool_hr():
     """Gets pool hashrate by adding up individual hashrates"""
@@ -117,6 +132,7 @@ def get_pool_hr():
         pool_hr += get_hr(account)
 
     return pool_hr
+
 
 def No_miners():
     """Returns the number of active miner connections"""

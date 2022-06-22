@@ -71,7 +71,9 @@ def client_handler():
                     last_miner_notify_flag = True
 
                 if "result" in msg and "pow" in msg["result"]:
-                    print("NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE")
+                    print(
+                        "NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE  NEW BLOCK FOUND!! YEEEE"
+                    )
                     accountancy.new_block_accountancy()
 
 

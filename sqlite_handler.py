@@ -4,7 +4,9 @@ import time
 
 from params import main_db_file
 
+
 class Database:
+
     def __init__(self, db_file):
         sql_create_payments_table = """ CREATE TABLE IF NOT EXISTS payments (
                                         timestamp INTEGER NOT NULL,
@@ -40,9 +42,11 @@ class Database:
     def unlock_busy(self):
         self.busy = False
 
-    def add_payment_to_DB(self, reward_block, from_account, to_account, share_rate):
+    def add_payment_to_DB(self, reward_block, from_account, to_account,
+                          share_rate):
         sql = "INSERT INTO payments (timestamp, reward_block, from_account, to_account, amount, paid, acked_by_wallet, confirmed, share_rate, orphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-        payment = (int(time.time()), reward_block, from_account, to_account, 0, 0, 0, 0, share_rate, 0)
+        payment = (int(time.time()), reward_block, from_account, to_account, 0,
+                   0, 0, 0, share_rate, 0)
 
         self.wait_and_lock_busy()
 
@@ -55,7 +59,8 @@ class Database:
 
         self.unlock_busy()
 
-    def set_amount_for_payment(self, reward_block, from_account, to_account, new_amount):
+    def set_amount_for_payment(self, reward_block, from_account, to_account,
+                               new_amount):
         sql = "UPDATE payments SET amount = ? WHERE reward_block = ? AND from_account = ? AND to_account = ?"
         payment = (new_amount, reward_block, from_account, to_account)
 
@@ -91,7 +96,7 @@ class Database:
         self.wait_and_lock_busy()
 
         c = self.conn.cursor()
-        c.execute(sql, (reward_block,))
+        c.execute(sql, (reward_block, ))
         try:
             self.conn.commit()
         except sqlite3.DatabaseError:
@@ -105,7 +110,7 @@ class Database:
         self.wait_and_lock_busy()
 
         c = self.conn.cursor()
-        c.execute(sql, (reward_block,))
+        c.execute(sql, (reward_block, ))
         try:
             self.conn.commit()
         except sqlite3.DatabaseError:
@@ -119,7 +124,7 @@ class Database:
         self.wait_and_lock_busy()
 
         c = self.conn.cursor()
-        c.execute(sql, (block,))
+        c.execute(sql, (block, ))
         try:
             self.conn.commit()
         except sqlite3.DatabaseError:
@@ -158,7 +163,7 @@ class Database:
 
     def get_payments_of_block(self, block):
         sql = "SELECT * FROM payments WHERE reward_block = ?"
-        payment = (block,)
+        payment = (block, )
 
         self.wait_and_lock_busy()
 
@@ -212,7 +217,7 @@ class Database:
 
     def get_account_payments(self, account):
         sql = "SELECT timestamp, reward_block, from_account, amount, paid, orphan FROM payments WHERE to_account = ? ORDER BY reward_block DESC LIMIT 100"
-        params = (account,)
+        params = (account, )
 
         self.wait_and_lock_busy()
 
@@ -230,12 +235,13 @@ class Database:
         self.wait_and_lock_busy()
 
         c = self.conn.cursor()
-        c.execute(sql, (block,))
+        c.execute(sql, (block, ))
 
         result = c.fetchall()
 
         self.unlock_busy()
 
         return bool(len(result))
+
 
 db = Database(main_db_file)
